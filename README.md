@@ -6,7 +6,7 @@
 
 - **产品地址：** [https://fuyao.edgeone.dev/](https://fuyao.edgeone.dev/)
 - **访问条件：** 当前地址需使用中国大陆以外 IP 访问。若使用中国大陆境内自定义域名提供服务，通常需要完成备案；本作品只有 24 小时完成时间，无法在期限内完成备案，因此采用 EdgeOne 提供的公开域名提交。
-- **源码仓库：** [https://github.com/alteman666-tech/-AI-](https://github.com/alteman666-tech/-AI-)
+- **源码仓库：** [https://github.com/alteman666-tech/AIME-Quality-](https://github.com/alteman666-tech/AIME-Quality-)
 - **推荐浏览器：** 桌面版 Chrome 或 Edge，无需登录。
 
 ## 三分钟体验路径
@@ -38,12 +38,12 @@
 
 ## AI、规则与人的分工
 
-| 参与者 | 负责内容 | 不负责内容 |
-| --- | --- | --- |
-| 确定性规则 | 单事实数值、单位、引用、时点、工具状态和已知边界检查 | 不解释复杂自然语言意图 |
-| qwen3.7-flash | 语义覆盖、因果、个性化、收益保证、隐私和结构化初判 | 不修改参考证据，不把未知事实补成正确 |
-| 人工复核 | 确认争议、修正规则归因、决定是否验收 | 不覆盖或删除机器原始结论 |
-| 用户反馈 | 提供体验与问题线索，帮助安排复核优先级 | 不直接成为事实标签或准确率依据 |
+| 参与者           | 负责内容                       | 不负责内容              |
+| ------------- | -------------------------- | ------------------ |
+| 确定性规则         | 单事实数值、单位、引用、时点、工具状态和已知边界检查 | 不解释复杂自然语言意图        |
+| qwen3.7-flash | 语义覆盖、因果、个性化、收益保证、隐私和结构化初判  | 不修改参考证据，不把未知事实补成正确 |
+| 人工复核          | 确认争议、修正规则归因、决定是否验收         | 不覆盖或删除机器原始结论       |
+| 用户反馈          | 提供体验与问题线索，帮助安排复核优先级        | 不直接成为事实标签或准确率依据    |
 
 ## 数据使用
 
@@ -54,14 +54,14 @@
 
 ## 技术架构
 
-| 层次 | 实现 | 职责 |
-| --- | --- | --- |
-| 页面 | EdgeOne Pages 托管 HTML/CSS/JavaScript | 展示案例、证据、复核和版本回归 |
-| 服务端 | EdgeOne Pages Functions | 校验输入，代理模型与金融接口，返回运行结果 |
-| 模型 | qwen3.7-flash | `/api/evaluate` 语义评测与 `/api/generate` 候选回答生成 |
-| 金融接口 | 扶摇 API | `/proxy-fuyao` 查询行情快照 |
-| 固定证据 | 年报字段与构造案例 | 保持回归数据条件一致 |
-| 本地存储 | 浏览器 localStorage | 保存人工复核和用户反馈，跨设备不共享 |
+| 层次   | 实现                                   | 职责                                           |
+| ---- | ------------------------------------ | -------------------------------------------- |
+| 页面   | EdgeOne Pages 托管 HTML/CSS/JavaScript | 展示案例、证据、复核和版本回归                              |
+| 服务端  | EdgeOne Pages Functions              | 校验输入，代理模型与金融接口，返回运行结果                        |
+| 模型   | qwen3.7-flash                        | `/api/evaluate` 语义评测与 `/api/generate` 候选回答生成 |
+| 金融接口 | 扶摇 API                               | `/proxy-fuyao` 查询行情快照                        |
+| 固定证据 | 年报字段与构造案例                            | 保持回归数据条件一致                                   |
+| 本地存储 | 浏览器 localStorage                     | 保存人工复核和用户反馈，跨设备不共享                           |
 
 调用路径：浏览器 → 服务端函数 → 千问或扶摇 → 返回结果。固定证据在页面中展示，人工复核与反馈保存在当前浏览器。
 
@@ -69,23 +69,23 @@ API Key 仅配置在 EdgeOne Pages Functions 的服务端环境变量中，不�
 
 ## 服务端路由
 
-| 方法 | 路径 | 用途 |
-| --- | --- | --- |
-| GET | `/api/health` | 检查扶摇和千问环境变量是否已配置 |
-| POST | `/proxy-fuyao` | 查询 A 股行情快照并保留业务码和 request_id |
-| POST | `/api/qwen-check` | 验证千问真实连通性 |
-| POST | `/api/evaluate` | 确定性规则与非思考 JSON 模式联合评测 |
-| POST | `/api/generate` | 根据候选 Prompt 生成回归回答 |
+| 方法   | 路径                | 用途                           |
+| ---- | ----------------- | ---------------------------- |
+| GET  | `/api/health`     | 检查扶摇和千问环境变量是否已配置             |
+| POST | `/proxy-fuyao`    | 查询 A 股行情快照并保留业务码和 request_id |
+| POST | `/api/qwen-check` | 验证千问真实连通性                    |
+| POST | `/api/evaluate`   | 确定性规则与非思考 JSON 模式联合评测        |
+| POST | `/api/generate`   | 根据候选 Prompt 生成回归回答           |
 
 ## 环境变量
 
-| 名称 | 说明 |
-| --- | --- |
-| `FUYAO_API_KEY` | 扶摇 API Key |
-| `DASHSCOPE_API_KEY` | 阿里云百炼 API Key |
-| `QWEN_BASE_URL` | `https://dashscope.aliyuncs.com/compatible-mode/v1` |
-| `QWEN_MODEL` | `qwen3.7-flash` |
-| `APP_DATA_MODE` | `hybrid` |
+| 名称                  | 说明                                                  |
+| ------------------- | --------------------------------------------------- |
+| `FUYAO_API_KEY`     | 扶摇 API Key                                          |
+| `DASHSCOPE_API_KEY` | 阿里云百炼 API Key                                       |
+| `QWEN_BASE_URL`     | `https://dashscope.aliyuncs.com/compatible-mode/v1` |
+| `QWEN_MODEL`        | `qwen3.7-flash`                                     |
+| `APP_DATA_MODE`     | `hybrid`                                            |
 
 ## 本地检查与部署
 
@@ -103,7 +103,7 @@ npm run check
 - 输入超长、历史非 JSON、工具失败、人工复核刷新和用户反馈路径均保留真实状态，不使用 Mock 成功替代失败。
 - 以上是小样本作品验收结果，不代表线上总体准确率或监管适当性认证。
 
-详细结果见[测试报告](https://github.com/alteman666-tech/-AI-/blob/main/docs/02_测试报告.md)。
+详细结果见[测试报告](https://github.com/alteman666-tech/AIME-Quality-/blob/main/docs/02_%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A.md)。
 
 ## 已知边界与未做事项
 
@@ -116,10 +116,6 @@ npm run check
 
 ## 文档导航
 
-- [产品说明与方案设计](https://github.com/alteman666-tech/-AI-/blob/main/docs/01_产品说明与方案设计.md)
-- [测试报告](https://github.com/alteman666-tech/-AI-/blob/main/docs/02_测试报告.md)
-- [AI 使用与验证记录](https://github.com/alteman666-tech/-AI-/blob/main/docs/03_AI使用与验证记录.md)
-- [演示操作路径](https://github.com/alteman666-tech/-AI-/blob/main/docs/04_演示操作路径.md)
-- [提交信息](https://github.com/alteman666-tech/-AI-/blob/main/docs/05_提交信息.md)
-
-上述链接对应仓库 main 分支根目录下的 docs 文件夹。请将压缩包解压后的文件和文件夹上传到仓库根目录；仅上传 ZIP 文件不会创建这些在线文档。离线阅读时，可直接打开本地 docs 文件夹中的同名文件。
+- [产品说明与方案设计](https://github.com/alteman666-tech/AIME-Quality-/blob/main/docs/01_%E4%BA%A7%E5%93%81%E8%AF%B4%E6%98%8E%E4%B8%8E%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1.md)
+- [测试报告]([测试报告](https://github.com/alteman666-tech/AIME-Quality-/blob/main/docs/02_%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A.md))
+- [AI 使用与验证记录](https://github.com/alteman666-tech/AIME-Quality-/blob/main/docs/03_AI%E4%BD%BF%E7%94%A8%E4%B8%8E%E9%AA%8C%E8%AF%81%E8%AE%B0%E5%BD%95.md)
