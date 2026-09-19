@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="投资 Agent 回答质量与个性化治理平台">
+  <title>AIME 投研回答质检台</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark">A</span><div><strong>AIME Quality</strong><small>投研回答质检台</small></div></div>
+      <nav class="nav" aria-label="主导航">
+        <button class="nav-item active" data-view="overview"><span>01</span>治理概览</button>
+        <button class="nav-item" data-view="workspace"><span>02</span>评测工作台</button>
+        <button class="nav-item" data-view="review"><span>03</span>人工复核</button>
+        <button class="nav-item" data-view="personalization"><span>04</span>画像对照</button>
+        <button class="nav-item" data-view="versions"><span>05</span>版本回归</button>
+        <button class="nav-item" data-view="services"><span>06</span>服务诊断</button>
+      </nav>
+      <div class="sidebar-foot"><span id="healthDot" class="health-dot"></span><div><strong id="healthText">检查服务中</strong><small>EdgeOne 生产环境</small></div></div>
+    </aside>
+
+    <div class="main-shell">
+      <header class="topbar">
+        <div><p class="eyebrow">INVESTMENT AGENT GOVERNANCE</p><h1 id="pageTitle">治理概览</h1></div>
+        <div class="topbar-meta"><span class="chip">qwen3.7-flash</span><span class="chip chip-blue">casepack-v1</span><button id="quickStartBtn" class="button button-primary">开始一次评测</button></div>
+      </header>
+
+      <main class="content">
+        <section id="view-overview" class="view active">
+          <div class="hero-card">
+            <div><span class="kicker">QUALITY GATE · MVP</span><h2>让每个投资结论都有证据、边界和责任人</h2><p>规则负责确定性核验，千问负责语义判断，人工负责最终改判。画像只改变解释方式，不能改变金融事实、来源与必要风险。</p></div>
+            <div class="hero-decision"><small>当前验收结论</small><strong>待跑真实评测</strong><span>样例结果不等于生产上线认证</span></div>
+          </div>
+          <div class="metric-grid">
+            <article class="metric-card"><span>演示案例</span><strong>12</strong><small>3 类问答意图</small></article>
+            <article class="metric-card"><span>真实证据字段</span><strong>7</strong><small>年报页码可追溯</small></article>
+            <article class="metric-card"><span>硬性治理规则</span><strong>10</strong><small>事实 / 时效 / 合规 / 隐私</small></article>
+            <article class="metric-card"><span>待人工复核</span><strong id="overviewReviewCount">0</strong><small>保存在当前浏览器</small></article>
+          </div>
+          <div class="two-col">
+            <article class="panel"><div class="panel-head"><div><span class="step-label">核心闭环</span><h3>一次改版如何通过质量门</h3></div></div><ol class="flow-list"><li><b>选择案例</b><span>冻结问题、画像、时点与证据</span></li><li><b>联合评测</b><span>确定性规则核验 + LLM 语义判断</span></li><li><b>查看证据</b><span>定位回答片段、原始字段和年报页码</span></li><li><b>人工复核</b><span>确认、改判或暂缓，并留下理由</span></li><li><b>版本回归</b><span>同条件重跑，分别统计修复与退化</span></li></ol></article>
+            <article class="panel"><div class="panel-head"><div><span class="step-label">职责边界</span><h3>四类信号不能混为一谈</h3></div></div><div class="responsibility-list"><div><span class="signal signal-rule">规则</span><p><b>确定性事实检查</b><small>数值、单位、报告期、页码与工具状态</small></p></div><div><span class="signal signal-ai">AI</span><p><b>语义与表达判断</b><small>答非所问、无依据因果、个性化适配</small></p></div><div><span class="signal signal-human">人工</span><p><b>争议裁决</b><small>保留机器初判和改判理由，不覆盖原记录</small></p></div><div><span class="signal signal-user">反馈</span><p><b>问题线索</b><small>点赞不证明事实正确，点踩不自动定罪</small></p></div></div></article>
+          </div>
+        </section>
+
+        <section id="view-workspace" class="view">
+          <div class="workspace-layout">
+            <aside class="case-rail"><div class="rail-head"><div><span class="step-label">案例集</span><h3>开发样例</h3></div><span class="count-badge">12</span></div><div class="filter-row"><button class="filter active" data-filter="all">全部</button><button class="filter" data-filter="factual">事实</button><button class="filter" data-filter="explanation">解释</button><button class="filter" data-filter="personalized">个性化</button></div><div id="caseList" class="case-list"></div></aside>
+            <div class="work-area">
+              <article class="panel input-panel"><div class="panel-head"><div><span class="step-label">待评测回答</span><h3 id="caseTitle">选择一个案例</h3></div><div class="version-tags"><span id="intentTag" class="tag">—</span><span id="profileTag" class="tag tag-neutral">—</span></div></div><label>用户问题<textarea id="question" rows="2"></textarea></label><label>候选回答<textarea id="candidateAnswer" rows="4"></textarea></label><div id="evidencePreview" class="evidence-strip"></div><div class="action-row"><p><span class="dot dot-blue"></span> 真实调用千问评测；证据来自固定历史快照</p><button id="runEvaluationBtn" class="button button-primary">运行联合评测</button></div></article>
+              <article id="evaluationOutput" class="panel result-panel empty-state"><div><span class="empty-icon">◎</span><h3>等待评测</h3><p>选择案例后运行评测，这里将显示质量结论、问题定位与证据链。</p></div></article>
+            </div>
+          </div>
+        </section>
+
+        <section id="view-review" class="view">
+          <div class="section-intro"><div><span class="step-label">HUMAN IN THE LOOP</span><h2>人工复核队列</h2><p>机器结论与人工结论分别保存。人工可以确认、改判或暂缓，但必须填写理由。</p></div><button id="clearReviewsBtn" class="button button-secondary">清空本机记录</button></div>
+          <div class="review-layout"><article class="panel"><div class="panel-head"><h3>待处理记录</h3><span id="reviewCount" class="count-badge">0</span></div><div id="reviewList" class="review-list"></div></article><article id="reviewEditor" class="panel review-editor empty-state"><div><span class="empty-icon">✓</span><h3>尚未选择记录</h3><p>先在评测工作台运行一次评测。</p></div></article></div>
+        </section>
+
+        <section id="view-personalization" class="view">
+          <div class="section-intro"><div><span class="step-label">CONTROLLED PAIR</span><h2>画像对照：哪些内容绝不能变化</h2><p>同一问题、证据和时点，只改变风险偏好。对比事实、风险与表达三个层次。</p></div><span class="chip chip-blue">P02 · 单变量对照</span></div>
+          <div id="pairCompare" class="pair-grid"></div>
+          <article class="panel invariant-panel"><div class="panel-head"><div><span class="step-label">个性化不变量</span><h3>高风险偏好也不能越过的边界</h3></div></div><div class="invariant-grid"><div><b>事实不变</b><span>数值、单位、主体、期间、口径</span></div><div><b>证据不变</b><span>来源、页码、发布时间与核验状态</span></div><div><b>风险不消失</b><span>不保证收益，不因偏好省略关键风险</span></div><div><b>隐私最小化</b><span>不展示与当前任务无关的账户或身份信息</span></div></div></article>
+        </section>
+
+        <section id="view-versions" class="view">
+          <div class="section-intro"><div><span class="step-label">PROMPT REGRESSION</span><h2>Prompt 修复与同条件回归</h2><p>固定问题、画像、证据和规则，只改变回答 Prompt，避免把数据变化误判为 Prompt 收益。</p></div><span class="chip">answer-v1 → answer-v2</span></div>
+          <div class="version-control panel"><label>回归案例<select id="regressionCase"></select></label><label class="prompt-field">候选 Prompt<textarea id="candidatePrompt" rows="5">回答前先核对证据中的主体、指标、期间、数值和单位；引用来源与页码。区分历史事实与未来判断，不承诺收益。按用户经验调整解释深度，但不得因风险偏好改变事实。</textarea></label><div class="action-row"><p>将调用 qwen3.7-flash 生成候选回答，再用同一评测规则复评。</p><button id="runRegressionBtn" class="button button-primary">生成并回归</button></div></div>
+          <div id="regressionResult" class="comparison-grid"><article class="panel empty-state"><div><span class="empty-icon">⇄</span><h3>等待回归</h3><p>运行后查看基线与候选回答，以及修复、未变和新增问题。</p></div></article></div>
+        </section>
+
+        <section id="view-services" class="view">
+          <div class="section-intro"><div><span class="step-label">RUNTIME DIAGNOSTICS</span><h2>服务诊断</h2><p>这里检查真实接口状态。HTTP 成功不等于业务数据有效，业务码、结构和时间语义都需要检查。</p></div><button id="refreshHealthBtn" class="button button-secondary">重新检查</button></div>
+          <div class="service-grid"><article class="service-card"><div><span class="service-icon">数</span><p><b>扶摇金融数据</b><small>服务端密钥代理 · 行情快照</small></p></div><span id="fuyaoStatus" class="status status-pending">检查中</span></article><article class="service-card"><div><span class="service-icon purple">模</span><p><b>阿里千问</b><small id="modelMeta">qwen3.7-flash · hybrid</small></p></div><span id="qwenStatus" class="status status-pending">检查中</span></article></div>
+          <div class="two-col"><article class="panel"><div class="panel-head"><div><span class="step-label">真实行情接口</span><h3>扶摇行情快照</h3></div></div><div class="inline-form"><input id="stockCode" value="600519.SH"><button id="queryFuyaoBtn" class="button button-primary">查询</button></div><pre id="fuyaoResult" class="code-output">等待查询</pre></article><article class="panel"><div class="panel-head"><div><span class="step-label">模型连通检查</span><h3>千问快速调用</h3></div></div><textarea id="qwenPrompt" rows="3">用一句话说明投资回答为什么需要事实核验。</textarea><button id="queryQwenBtn" class="button button-primary block-gap">调用模型</button><pre id="qwenResult" class="code-output">等待调用</pre></article></div>
+        </section>
+      </main>
+    </div>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="js/demo-data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

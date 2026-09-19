@@ -1,0 +1,10 @@
+{
+  "name": "aime-investment-agent-quality-console",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node tests/function-smoke.mjs",
+    "check": "node --check js/demo-data.js && node --check js/main.js && node --check functions/api/evaluate.js && node --check functions/api/generate.js"
+  }
+}
