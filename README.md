@@ -117,5 +117,5 @@ npm run check
 ## 文档导航
 
 - [产品说明与方案设计](https://github.com/alteman666-tech/AIME-Quality-/blob/main/docs/01_%E4%BA%A7%E5%93%81%E8%AF%B4%E6%98%8E%E4%B8%8E%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1.md)
-- [测试报告]([测试报告](https://github.com/alteman666-tech/AIME-Quality-/blob/main/docs/02_%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A.md))
+- [测试报告](https://github.com/alteman666-tech/AIME-Quality-/blob/main/docs/02_%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A.md)
 - [AI 使用与验证记录](https://github.com/alteman666-tech/AIME-Quality-/blob/main/docs/03_AI%E4%BD%BF%E7%94%A8%E4%B8%8E%E9%AA%8C%E8%AF%81%E8%AE%B0%E5%BD%95.md)
